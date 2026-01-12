@@ -1,2 +1,2 @@
 # Project_with_react
-Estudando react para produzir telas
+Criando um site semelhante ao site Typeracer, utilizando react, para adquirir experiência e conhecimento.
