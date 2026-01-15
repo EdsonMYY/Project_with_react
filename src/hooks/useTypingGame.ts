@@ -22,6 +22,7 @@ const useTypingGame = (textToType: string) => {
     } 
     else if (timeLeft === 0) {
       setGameState('finish');
+      calculateWPM(userInput.length);
     }
   }, [gameState, timeLeft]);
 
