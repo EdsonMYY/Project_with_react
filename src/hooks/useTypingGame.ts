@@ -7,6 +7,8 @@ const useTypingGame = (textToType: string) => {
 
   const [userInput, setUserInput] = useState<string>('');
 
+  const [startTime, setStartTime] = useState<number | null>(null);
+
   const [timeLeft, setTimeLeft] = useState<number>(30); // 30 seconds countdown
   const [wpm, setWpm] = useState<number>(0);
 
@@ -28,6 +30,7 @@ const useTypingGame = (textToType: string) => {
 
     if (gameState === 'start') {
       setGameState('run');
+      setStartTime(Date.now());
     }
 
     if (gameState === 'finish') return;
@@ -36,7 +39,7 @@ const useTypingGame = (textToType: string) => {
 
     if (value.length >= textToType.length) {
       setGameState('finish');
-      calculateWPM(value.length, 30 - timeLeft);
+      calculateWPM(value.length);
     }
   };
 
@@ -47,10 +50,16 @@ const useTypingGame = (textToType: string) => {
     setWpm(0);
   };
 
-  const calculateWPM = (chars: number, timeElapsed: number) => {
+  const calculateWPM = (chars: number) => {
+    if (!startTime) return;
+
     const words = chars / 5;
-    const minutes = timeElapsed / 60;
-    const result = Math.round(words / minutes);
+    const now = Date.now();
+    const timeInMinutes = (now - startTime) / 60000;
+
+    if (timeInMinutes < 0.001) return 0; // Prevent broken math if the person is the flash
+
+    const result = Math.round(words / timeInMinutes);
     setWpm(result > 0 ? result : 0);
   };
 
