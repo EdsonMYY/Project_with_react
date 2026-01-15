@@ -42,7 +42,7 @@ function App() {
 
         {gameState === 'finish' && (
           <div className="absolute inset-0 bg-slate-900/90 flex flex-col items-center justify-center rounded-xl z-10">
-            <h2 className="text-2xl font-bold mb-4">Time Out</h2>
+            <h2 className="text-2xl font-bold mb-4">Finished</h2>
             <p className="text-lg mb-6">Your WPM: <span className="text-green-400 font bold">{wpm}</span></p>
             <button onClick={resetGame} className="bh-yellow-500 text-slate-900font-bold py-2 px-6 rounded hover:bh-yellow-400 transition">
               Restart
@@ -51,7 +51,9 @@ function App() {
         )}
       </div>
 
-      <p className="mt-8 text-slate-500 text-sm">Click anywhere and start typing to play.</p>
+      <p className={`mt-8 text-slate-500 text-sm transition-opacity duration-300 ${gameState === 'start' ? 'opacity-100' : 'opacity-0'}`}>
+        Click anywhere or just start typing to begin.
+      </p>
     </div>
   );
 }
